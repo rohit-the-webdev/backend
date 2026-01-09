@@ -4,19 +4,20 @@ require("dotenv").config();
 
 const app = express();
 
+// ✅ CORS — ONLY ORIGINS, NO ROUTES, NO SLASH
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://internship-tasks-tau.vercel.app/",
-      "https://internship-tasks-tau.vercel.app/register",
-      "https://internship-tasks-tau.vercel.app/login"
+      "https://internship-tasks-tau.vercel.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
+// ✅ Preflight support (IMPORTANT)
+app.options("*", cors());
 
 app.use(express.json());
 

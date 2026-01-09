@@ -8,7 +8,9 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://internship-tasks-tau.vercel.app/"
+      "https://internship-tasks-tau.vercel.app/",
+      "https://internship-tasks-tau.vercel.app/register",
+      "https://internship-tasks-tau.vercel.app/login"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

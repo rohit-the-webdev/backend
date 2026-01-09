@@ -7,13 +7,14 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",           // local dev
-      "https://internship-tasks-tau.vercel.app/" // vercel
+      "http://localhost:5173",
+      "https://internship-tasks-tau.vercel.app/"
     ],
-    methods: ["GET", "POST", "PUT"],
-    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 app.use(express.json());
 

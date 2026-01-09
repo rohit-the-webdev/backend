@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const connectDB = require("../db");
 
 // POST /api/signup
 router.post("/signup", async (req, res) => {
   console.log("req body ", req.body);
 
   try {
+    await connectDB();
+
     const user = new User(req.body);
     await user.save();
 
@@ -32,19 +35,18 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    await connectDB(); // 🔥 HERE
+
     const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
-    console.log("DB PASSWORD 👉", user.password);
-    console.log("ENTERED PASSWORD 👉", password);
 
-    if (user.password !== password) {
+    if (user.password !== password.trim()) {
       return res.status(400).json({ message: "Invalid password" });
     }
 
-    // ✅ REMOVE password ONLY AFTER validation
     const { password: pwd, ...safeUser } = user._doc;
 
     res.status(200).json({
@@ -52,16 +54,19 @@ router.post("/login", async (req, res) => {
       user: safeUser,
     });
   } catch (error) {
-    console.error("LOGIN ERROR 👉", error); // 🔥 IMPORTANT
+    console.error("LOGIN ERROR:", error);
     res.status(500).json({ message: "Login failed" });
   }
 });
+
 
 // PUT /api/user/update
 router.put("/user/update", async (req, res) => {
   const { email, Uname, age, phoneNo, address, pincode } = req.body;
 
   try {
+    await connectDB();
+
     const updatedUser = await User.findOneAndUpdate(
       { email }, // find user
       {
@@ -101,6 +106,8 @@ router.put("/user/change-password", async (req, res) => {
   }
 
   try {
+    await connectDB();
+
     const user = await User.findOne({ email });
 
     if (!user) {

@@ -4,7 +4,17 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",           // local dev
+      "https://internship-tasks-tau.vercel.app/" // vercel
+    ],
+    methods: ["GET", "POST", "PUT"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 app.use("/api", require("./routes/authRoutes"));

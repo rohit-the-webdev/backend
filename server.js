@@ -1,20 +1,27 @@
 const express = require("express");
 const cors = require("cors");
-const connectDB = require("./config/db");
 require("dotenv").config();
+const connectDB = require("./db");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
+// ✅ REQUIRED middleware
+app.use(cors());
+app.use(express.json());
+
+// connect DB
 connectDB();
 
-app.use(cors());
-app.use(express.json()); // 🔥 MUST be here
-
+// routes
 app.use("/api", require("./routes/authRoutes"));
 
+const PORT = process.env.PORT || 5000;
+
+// ✅ VERY IMPORTANT for Vercel
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 }
+
+module.exports = app;

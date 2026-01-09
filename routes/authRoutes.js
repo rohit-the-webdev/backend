@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-const connectDB = require("../db");
+const connectDB = require("../config/db");
 
 // POST /api/signup
 router.post("/signup", async (req, res) => {
